@@ -12,14 +12,14 @@ A type that stores an `N`-dimensional array of structures of type `T` as a struc
 """
 struct StructArray{T, N, C<:Tup, I} <: AbstractArray{T, N}
     components::C
+end
 
-#     function StructArray{T, N, C}(c) where {T, N, C<:Tup}
-#         isempty(c) && throw(ArgumentError("only eltypes with fields are supported"))
-#         ax = findconsistentvalue(axes, c)
-#         (ax === nothing) && throw(ArgumentError("all component arrays must have the same shape"))
-#         length(ax) == N || throw(ArgumentError("wrong number of dimensions"))
-#         new{T, N, C, index_type(c)}(c)
-#     end
+function StructArray{T, N, C}(c) where {T, N, C<:Tup}
+    isempty(c) && throw(ArgumentError("only eltypes with fields are supported"))
+    ax = findconsistentvalue(axes, c)
+    (ax === nothing) && throw(ArgumentError("all component arrays must have the same shape"))
+    length(ax) == N || throw(ArgumentError("wrong number of dimensions"))
+    StructArray{T, N, C, index_type(c)}(c)
 end
 
 # compute optimal type to use for indexing as a function of components
